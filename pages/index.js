@@ -5,17 +5,7 @@ import Pagination from "../src/components/Pagination";
 import { useState } from "react";
 import { paginate } from "../src/helpers/paginate";
 
-export const getStaticProps = async () => {
-  const res = await fetch("https://jsonplaceholder.typicode.com/todos");
-  const data = await res.json();
-
-  return {
-    props: { data },
-  };
-};
-
 export default function Home({ data }) {
-  // console.log(data.length, "data");
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
 
@@ -48,3 +38,12 @@ export default function Home({ data }) {
     </div>
   );
 }
+
+export const getStaticProps = async () => {
+  const res = await fetch("https://jsonplaceholder.typicode.com/todos");
+  const data = await res.json();
+
+  return {
+    props: { data },
+  };
+};
