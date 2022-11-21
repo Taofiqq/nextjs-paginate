@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Pagination from "../src/components/Pagination";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { paginate } from "../src/helpers/paginate";
 
 export default function Home({ data }) {
@@ -13,8 +13,8 @@ export default function Home({ data }) {
     setCurrentPage(page);
   };
 
-  // paginate posts
-  const posts = paginate(data, currentPage, pageSize);
+  const paginatedPosts = paginate(data, currentPage, pageSize);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -23,16 +23,21 @@ export default function Home({ data }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <p>Page: {currentPage}</p>
+      <p>
+        <strong>NextJS x Pagination</strong>
+      </p>
+      <p>
+        Page: <span style={{ color: "red" }}>{currentPage}</span>
+      </p>
 
-      {posts.map((item) => {
+      {paginatedPosts.map((item) => {
         return <p key={item.id}>{item.title}</p>;
       })}
 
       <Pagination
-        items={data.length}
-        currentPage={currentPage}
-        pageSize={pageSize}
+        items={data.length} // 100
+        currentPage={currentPage} // 1
+        pageSize={pageSize} // 10
         onPageChange={onPageChange}
       />
     </div>
@@ -40,7 +45,7 @@ export default function Home({ data }) {
 }
 
 export const getStaticProps = async () => {
-  const res = await fetch("https://jsonplaceholder.typicode.com/todos");
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
   const data = await res.json();
 
   return {
