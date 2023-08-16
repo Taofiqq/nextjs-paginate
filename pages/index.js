@@ -12,7 +12,6 @@ export default function Home({ data }) {
   const onPageChange = (page) => {
     setCurrentPage(page);
   };
-
   const paginatedPosts = paginate(data, currentPage, pageSize);
 
   return (
